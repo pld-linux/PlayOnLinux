@@ -8,6 +8,7 @@ Source0:	http://www.playonlinux.com/script_files/PlayOnLinux/%{version}/%{name}_
 # Source0-md5:	1bc12abd0a3d2426ea35e6887e9d3bd5
 Source1:	%{name}.desktop
 URL:		http://www.playonlinux.com/en/
+BuildRequires:	rpm-pythonprov
 Requires:	python-wxPython
 Requires:	wine
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -20,22 +21,19 @@ Windows.
 %prep
 %setup -q -n playonlinux
 
-%build
-
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name},%{_desktopdir}}
 cp -r * $RPM_BUILD_ROOT%{_datadir}/%{name}
-install %SOURCE1 $RPM_BUILD_ROOT%{_desktopdir}
+install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 rm $RPM_BUILD_ROOT%{_datadir}/%{name}/{CHANGELOG,LICENCE}
 
 for exec in playonlinux*; do
-(cat << EOF
-#!/bin/bash
-%{_datadir}/%{name}/$exec $@
-
+	cat > $RPM_BUILD_ROOT%{_bindir}/$exec <<-EOF
+	#!/bin/sh
+	exec %{_datadir}/%{name}/$exec \${1+"\$@"}
 EOF
-) > $RPM_BUILD_ROOT%{_bindir}/$exec
+	chmod +x $RPM_BUILD_ROOT%{_bindir}/$exec
 done
 
 %clean
