@@ -11,6 +11,7 @@ URL:		http://www.playonlinux.com/en/
 BuildRequires:	rpm-pythonprov
 Requires:	python-wxPython
 Requires:	wine
+Requires:	xterm
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
