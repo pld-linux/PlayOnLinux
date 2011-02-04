@@ -9,6 +9,8 @@ Source0:	http://www.playonlinux.com/script_files/PlayOnLinux/%{version}/%{name}_
 Source1:	%{name}.desktop
 URL:		http://www.playonlinux.com/en/
 BuildRequires:	rpm-pythonprov
+Requires:	ImageMagick
+Requires:	cabextract
 Requires:	python-wxPython
 Requires:	wine
 Requires:	xterm
